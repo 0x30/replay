@@ -1,94 +1,13 @@
 import { record, addCustomEvent } from "rrweb";
-import fetchIntercept from "fetch-intercept";
-import { proxy, unProxy } from "ajax-hook";
 import type { eventWithTime, recordOptions } from "rrweb/typings/types";
+import { useRequestRecord } from "./libRequestRecord";
 
 export interface RecordOption
   extends Omit<recordOptions<eventWithTime>, "emit"> {
   snapShotSize?: number;
+  onEmit?: (event: eventWithTime) => void;
   onSnapShot: (events: eventWithTime[]) => void;
 }
-
-interface RequestRecord {
-  // request url
-  url: string;
-  // 请求参数
-  payload: FormData | string;
-  // request method
-  method: string;
-  // response code
-  status: number;
-  // 资源类型
-  // 取自  PerformanceResourceTiming - initiatorType
-  type: string;
-  // response header
-  requestHeader: Record<string, any>;
-  // response header
-  responseHeader: Record<string, any>;
-  // response 返回
-  response: any;
-  // 获取资源的网络协议，由 ALPN协议ID (RFC7301) https://datatracker.ietf.org/doc/html/rfc7301 标识
-  // 取自 PerformanceResourceTiming - duration
-  nextHopProtocol: string;
-  // 耗时
-  // 取自 PerformanceResourceTiming - duration
-  duration: number;
-}
-
-const useRequestRecord = () => {
-  const performance = new PerformanceObserver((entryList) => {
-    // 任意资源加载完成基本都会回调（极少数情况不会，可忽略）
-    entryList.getEntries().forEach((entry) => {
-      // 我们可以通过 entry.name 后缀或 entry.initiatorType 来判断资源类型。代码略
-      console.log(
-        "performance:",
-        entry.name,
-        entry.entryType,
-        entry.initiatorType,
-        entry
-      );
-    });
-  });
-
-  performance.observe({
-    entryTypes: ["resource"],
-  });
-
-  proxy({
-    onRequest(config, handler) {
-      handler.next(config);
-    },
-    onResponse(response, handler) {
-      const headers = response.config.headers;
-
-      console.log("axjs-hook resp:", response);
-      handler.next(response);
-    },
-  });
-
-  const stopFetchIntercept = fetchIntercept.register({
-    request(url, config) {
-      console.log("fetch resp:", url, config);
-
-      return [url, config];
-    },
-    response(resp) {
-      console.log("fetch resp:", resp);
-      return resp;
-    },
-  });
-
-  const stop = () => {
-    // stop XMLHttpRequest record
-    unProxy();
-    // stop Fetch record
-    stopFetchIntercept();
-    // stop PerformanceObserver record
-    performance.disconnect();
-  };
-
-  return stop;
-};
 
 export const useRecord = (option: RecordOption) => {
   let events: eventWithTime[] = [];
@@ -105,6 +24,7 @@ export const useRecord = (option: RecordOption) => {
     ...option,
     emit(e) {
       events.push(e);
+      option.onEmit?.(e);
       if (events.length > (option.snapShotSize ?? 200)) {
         option.onSnapShot?.(snapshot());
       }
@@ -114,7 +34,9 @@ export const useRecord = (option: RecordOption) => {
   // 监听请求
   const stopRequestRecord = useRequestRecord();
 
-  const addMessage = () => {};
+  const addMessage = (message: string) => {
+    addCustomEvent("log", message);
+  };
 
   // 停止所有的监听
   const stop = () => {
@@ -122,5 +44,5 @@ export const useRecord = (option: RecordOption) => {
     stopRequestRecord();
   };
 
-  return { stop, snapshot };
+  return { stop, snapshot, addMessage };
 };

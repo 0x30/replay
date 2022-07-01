@@ -9,6 +9,10 @@
     <p v-for="i in count">{{ i }}</p>
   </div>
 
+  <p class="rr-block">{{ eventCount }}</p>
+
+  <button @click="save">保存动作</button>
+
   <div>
     <button @click="xhr('http://localhost:3000/record/index.html?a=1')">
       xhr 200
@@ -52,7 +56,8 @@ form.append(
 const xhr = (url: string) => {
   const xml = new XMLHttpRequest();
   xml.open("post", url);
-  xml.responseType = "blob";
+  // xml.responseType = "blob";
+  xml.responseType = "arraybuffer";
   xml.send(form);
 };
 
@@ -80,9 +85,19 @@ const loadJs = () => {
   ele.src = "https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js";
   document.body.append(ele);
 };
-
+const res: any[] = [];
+const save = () => {
+  localStorage.setItem("events", JSON.stringify(res));
+};
+const eventCount = ref(0);
 onMounted(() => {
-  useRecord({ onSnapShot: () => {} });
+  const { snapshot } = useRecord({
+    onSnapShot: () => {},
+    onEmit: (e) => {
+      eventCount.value++;
+      res.push(e);
+    },
+  });
 });
 </script>
 
