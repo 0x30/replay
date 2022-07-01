@@ -14,10 +14,16 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "replay/**/*.ts",
+    "replay/**/*.d.ts",
+    "replay/**/*.tsx",
+    "replay/**/*.vue",
+
+    "record/**/*.ts",
+    "record/**/*.d.ts",
+    "record/**/*.tsx",
+    "record/**/*.vue",
+
     "env.d.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
