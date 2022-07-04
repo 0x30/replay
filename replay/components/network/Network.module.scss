@@ -1,0 +1,39 @@
+.table {
+  height: 300px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    border: 1px solid silver;
+    padding: 1px 4px;
+    white-space: nowrap;
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background-color: var(--back-color);
+    }
+
+    tr:hover {
+      background-color: var(--row-highlight-color);
+    }
+  }
+
+  thead {
+    text-align: left;
+
+    text-transform: capitalize;
+    position: sticky;
+    top: 0;
+
+    th {
+      background-color: #fff;
+    }
+  }
+}

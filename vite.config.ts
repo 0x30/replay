@@ -6,6 +6,11 @@ import { resolve } from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), jsx()],
+  css: {
+    modules: {
+      localsConvention: "camelCaseOnly",
+    },
+  },
   build: {
     rollupOptions: {
       input: {

@@ -2,7 +2,7 @@ import fetchIntercept, { FetchInterceptorResponse } from "fetch-intercept";
 import { proxy, unProxy, XhrResponse } from "ajax-hook";
 import { addCustomEvent } from "rrweb";
 
-interface RequestRecord {
+export interface RequestRecord {
   // request url
   url: string;
   // 请求参数
@@ -193,7 +193,10 @@ export const useRequestRecord = () => {
   // PerformanceObserver
   const performance = new PerformanceObserver((entryList) => {
     entryList.getEntries().forEach((entry) => {
-      supply(entry.name, entry).then((req) => addCustomEvent("network", req));
+      supply(entry.name, entry).then((req) => {
+        console.log(req);
+        addCustomEvent("network", req);
+      });
     });
   });
   performance.observe({ entryTypes: ["resource"] });

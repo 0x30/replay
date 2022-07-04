@@ -1,0 +1,16 @@
+.player-warp {
+  position: relative;
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
