@@ -1,39 +1,74 @@
-.table {
+.body {
+  position: relative;
+  overflow: hidden;
+
   height: 300px;
   overflow: auto;
   display: flex;
-  flex-direction: column;
 
-  table {
-    border-collapse: collapse;
+  display: flex;
+}
+
+.table {
+  font-family: monospace, "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+
+.network-detail {
+  flex: 1;
+  position: relative;
+
+  .close-btn {
+    top: 15px;
+    left: 20px;
+    position: absolute;
   }
 
-  td,
-  th {
-    border: 1px solid silver;
-    padding: 1px 4px;
-    white-space: nowrap;
-  }
+  :global(.el-tabs__nav-scroll) {
+    height: 32px;
 
-  tbody {
-    tr:nth-child(odd) {
-      background-color: var(--back-color);
-    }
-
-    tr:hover {
-      background-color: var(--row-highlight-color);
+    :global(.el-tabs__nav) {
+      height: 32px;
     }
   }
 
-  thead {
-    text-align: left;
+  :global(.el-tabs__nav-wrap) {
+    padding-left: 50px;
+    font-size: 12px !important;
+    font-weight: normal !important;
 
-    text-transform: capitalize;
-    position: sticky;
-    top: 0;
-
-    th {
-      background-color: #fff;
+    // tab 底部 边框 高度修改为1px
+    &::after {
+      height: 1px;
     }
+
+    :global(.el-tabs__item) {
+
+      // 默认颜色
+      color: var(--el-text-color-regular);
+
+      padding: 0 10px;
+
+      // tab 文字设置
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 32px;
+      font-family: monospace, "Courier New", Courier, monospace;
+      font-weight: bold;
+
+      text-transform: lowercase;
+    }
+
+    // 选中颜色
+    :global(.el-tabs__item.is-active) {
+      color: var(--el-text-color-primary);
+    }
+  }
+
+  .item {
+    font-size: 12px;
+    font-weight: normal;
+
+    background-color: red;
   }
 }

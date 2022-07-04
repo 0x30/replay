@@ -12,7 +12,7 @@ import {
 import "rrweb/dist/rrweb.min.css";
 import Style from "./EventPlayer.module.scss";
 import { debounce } from "lodash-es";
-import { eventInjectKey } from "../../util.ts/libInjectKey";
+import { eventInjectKey } from "../../util/libInjectKey";
 
 export const EventPlayer = defineComponent({
   setup: () => {

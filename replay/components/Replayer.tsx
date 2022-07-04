@@ -5,7 +5,7 @@ import "../style/var.css";
 import Style from "./Replayer.module.scss";
 import { eventWithTime } from "rrweb/typings/types";
 import Player from "./player/index";
-import { eventInjectKey } from "../util.ts/libInjectKey";
+import { eventInjectKey } from "../util/libInjectKey";
 
 export const Replayer = defineComponent({
   name: "ReplayComponent",
