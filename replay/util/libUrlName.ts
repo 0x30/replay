@@ -25,7 +25,7 @@ export const getUrlName = (url: string) => {
   if (isBlobURL(uri)) return url;
   if (isAboutBlank(uri)) return url;
 
-  if (uri.pathname === "/") return uri.host;
+  if (uri.pathname === "/") return uri.hostname;
 
   const paths = uri.pathname.split("/");
   const lastPath = "/" + paths.slice(-1);
