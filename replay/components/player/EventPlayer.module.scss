@@ -7,10 +7,21 @@
   align-items: center;
 
   overflow: hidden;
+  padding: 10px;
 }
 
 .player {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: absolute;
+  height: 100%;
+
+  iframe {
+    outline: none;
+    border: none;
+
+    box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 0.39);
+  }
 }
