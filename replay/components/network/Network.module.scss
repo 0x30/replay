@@ -10,8 +10,15 @@
 }
 
 .table {
-  font-family: monospace, "Courier New", Courier, monospace;
   font-weight: bold;
+
+  th {
+    text-transform: capitalize;
+  }
+
+  td {
+    font-family: monospace, "Courier New", Courier, monospace;
+  }
 }
 
 .network-detail {
@@ -57,10 +64,10 @@
       font-size: 12px;
       font-weight: 400;
       line-height: 32px;
-      font-family: monospace, "Courier New", Courier, monospace;
+
       font-weight: bold;
 
-      text-transform: lowercase;
+      text-transform: capitalize;
     }
 
     // 选中颜色
@@ -91,6 +98,45 @@
 
     details[open] summary {
       margin-bottom: 0.5em;
+    }
+  }
+}
+
+.time-row-item {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  .item {
+    top: 5px;
+    position: absolute;
+    height: 10px;
+    background-color: green;
+    display: flex;
+
+    div {
+      height: 10px;
+    }
+
+    .redirect {
+      background-color: azure;
+    }
+    .appCache {
+      background-color: cyan;
+    }
+    .dns {
+      background-color: coral;
+    }
+    .tcp {
+      background-color: chartreuse;
+    }
+    .tcpSSL {
+      background-color: purple;
+    }
+    .request {
+      background-color: green;
+    }
+    .response {
+      background-color: skyblue;
     }
   }
 }

@@ -1,12 +1,14 @@
 import { Replayer } from "rrweb";
 import { debounce } from "lodash-es";
 import { computed, nextTick, reactive, readonly, ref, watch } from "vue";
+import { eventWithTime } from "rrweb/typings/types";
 
 const isPlaying = ref(false);
 const isReady = ref(false);
 
 const speedRef = ref(1);
 
+const currentEvent = ref<eventWithTime>();
 const currentTimeoffest = ref(0);
 const currentProgress = computed(() => {
   return currentTimeoffest.value / (globalPlayer?.getMetaData().totalTime ?? 1);
@@ -31,6 +33,7 @@ export const usePlayer = () => {
 
   return {
     timeOffest: readonly(currentTimeoffest),
+    currentEvent: readonly(currentEvent),
     progress: readonly(currentProgress),
     isReady: readonly(isReady),
     isPlaying: readonly(isPlaying),
@@ -100,6 +103,10 @@ export const useInitPlayer = async (player: Replayer) => {
   player.on("resize", ({ width, height }: any) => {
     size.playerWidth = width;
     size.playerHeight = height;
+  });
+
+  player.on("event-cast", (event: any) => {
+    currentEvent.value = event;
   });
 
   const resizeObserver = new ResizeObserver((entries) => {
