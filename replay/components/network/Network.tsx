@@ -1,29 +1,17 @@
 import { EventType } from "rrweb";
-import { customEvent, eventWithTime } from "rrweb/typings/types";
-import {
-  computed,
-  defineComponent,
-  inject,
-  onMounted,
-  PropType,
-  ref,
-} from "vue";
+import { customEvent } from "rrweb/typings/types";
+import { computed, defineComponent, inject, PropType, ref } from "vue";
 import { RequestRecord } from "../../../record/lib/libRequestRecord";
 import { eventInjectKey } from "../../util/libInjectKey";
 import Style from "./Network.module.scss";
 import { bytesToSize } from "../../util/libMisc";
 
 import {
-  ElAutoResizer,
-  TableV2,
   ElTable,
   ElTableColumn,
   ElSpace,
-  ElDrawer,
   ElTabs,
   ElTabPane,
-  ElButton,
-  ElDivider,
   ElLink,
 } from "element-plus";
 import { getFontAwesomeIconFromMIME, msToFormatTime } from "../../util/libMisc";
@@ -45,6 +33,8 @@ const PerformanceTimingComponent = defineComponent({
   },
 });
 
+type DataType = ReturnType<typeof event2Data>;
+
 const event2Data = (event: NetworkRequestRecord) => {
   const respContentType = event.data.payload.responseHeader?.["content-type"];
 
@@ -64,19 +54,38 @@ const event2Data = (event: NetworkRequestRecord) => {
 
 const NetworkDetail = defineComponent({
   name: "NetworkDetail",
-  setup: () => {
+  props: {
+    modelValue: Object as PropType<DataType>,
+  },
+  emits: ["update:modelValue"],
+  setup: (props, { emit }) => {
     return () => (
       <div class={Style.networkDetail}>
-        <ElLink class={Style.closeBtn}>
+        <ElLink
+          underline={false}
+          class={Style.closeBtn}
+          onClick={() => emit("update:modelValue", undefined)}
+        >
           <i class="fa-solid fa-xmark"></i>
         </ElLink>
         <ElTabs>
-          <ElTabPane class={Style.item} label="User">
-            User
+          <ElTabPane class={Style.item} label="header">
+            <details>
+              <summary>Details</summary>
+              
+            </details>
+            <details>
+              <summary>Request Header</summary>
+              
+            </details>
+            <details>
+              <summary>Response Header</summary>
+              
+            </details>
           </ElTabPane>
-          <ElTabPane label="Config">Config</ElTabPane>
-          <ElTabPane label="Role">Role</ElTabPane>
-          <ElTabPane label="Task">Task</ElTabPane>
+          <ElTabPane label="Config">payload</ElTabPane>
+          <ElTabPane label="Role">response</ElTabPane>
+          <ElTabPane label="Task">timing</ElTabPane>
         </ElTabs>
       </div>
     );
@@ -87,7 +96,7 @@ const NetworkDetail = defineComponent({
 export const NetworkTable = defineComponent({
   name: "NetworkTable",
   setup: () => {
-    const showNetworkDetail = ref(true);
+    const currentNetwork = ref<ReturnType<typeof event2Data>>();
 
     const events = inject(eventInjectKey, []);
 
@@ -115,13 +124,7 @@ export const NetworkTable = defineComponent({
             tableLayout="fixed"
             height="100%"
             width="unset"
-            onCell-click={(row) => {
-              showNetworkDetail.value = true;
-            }}
-            // onCell-contextmenu={(row, column, cell, event) => {
-            //   event.preventDefault();
-            //   console.log(row, column);
-            // }}
+            onCell-click={(row) => (currentNetwork.value = row)}
           >
             <ElTableColumn
               label="name"
@@ -138,7 +141,7 @@ export const NetworkTable = defineComponent({
                 );
               }}
             </ElTableColumn>
-            {showNetworkDetail.value ? null : (
+            {currentNetwork.value ? null : (
               <>
                 <ElTableColumn
                   label="status"
@@ -189,7 +192,9 @@ export const NetworkTable = defineComponent({
               </>
             )}
           </ElTable>
-          {showNetworkDetail.value ? <NetworkDetail /> : null}
+          {currentNetwork.value ? (
+            <NetworkDetail v-model={currentNetwork.value} />
+          ) : null}
         </div>
       );
     };

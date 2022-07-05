@@ -19,8 +19,13 @@
   position: relative;
 
   .close-btn {
-    top: 15px;
-    left: 20px;
+    height: 32px;
+    width: 32px;
+
+    z-index: 10;
+
+    top: 0;
+    left: 0;
     position: absolute;
   }
 
@@ -43,7 +48,6 @@
     }
 
     :global(.el-tabs__item) {
-
       // 默认颜色
       color: var(--el-text-color-regular);
 
@@ -69,6 +73,24 @@
     font-size: 12px;
     font-weight: normal;
 
-    background-color: red;
+    details {
+      padding: 0 16px;
+      padding: 0.5em 0.5em 0;
+    }
+
+    summary {
+      font-weight: bold;
+      margin: -0.5em -0.5em 0;
+      padding: 0.5em;
+    }
+
+    details[open] {
+      padding: 0.5em;
+      border-bottom: 1px solid silver;
+    }
+
+    details[open] summary {
+      margin-bottom: 0.5em;
+    }
   }
 }
