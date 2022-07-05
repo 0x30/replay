@@ -41,6 +41,22 @@ export function bytesToSize(bytes: number) {
   return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
 }
 
+export function msToTime(s: number): string {
+  // Pad to 2 or 3 digits, default is 2
+  function pad(n: number, z: number = 2) {
+    return ("00" + n).slice(-z);
+  }
+
+  let ms = s % 1000;
+  s = (s - ms) / 1000;
+  let secs = s % 60;
+  s = (s - secs) / 60;
+  let mins = s % 60;
+  let hrs = (s - mins) / 60;
+
+  return pad(hrs) + ":" + pad(mins) + ":" + pad(secs) + "." + pad(ms, 3);
+}
+
 export function msToFormatTime(s: number): string {
   // Pad to 2 or 3 digits, default is 2
   function pad2(n: number, z: number = 2, format: string) {
