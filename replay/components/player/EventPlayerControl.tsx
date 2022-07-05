@@ -5,6 +5,7 @@ import { usePlayer } from "../../util/libPlayState";
 import Style from "./EventPlayerControl.module.scss";
 
 const ProgressComponent = defineComponent({
+  name: "ProgressComponent",
   props: {
     /**
      * 进度改变

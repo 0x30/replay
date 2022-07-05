@@ -1,12 +1,12 @@
 import { ElLink, ElTabPane, ElTabs } from "element-plus";
 import { defineComponent, PropType } from "vue";
 import Style from "./NetworkDetail.module.scss";
-import { DataType } from "./util";
+import { DataType, NetworkRequestRecord } from "./util";
 
 export const NetworkDetail = defineComponent({
   name: "NetworkDetail",
   props: {
-    modelValue: Object as PropType<DataType>,
+    modelValue: Object as PropType<NetworkRequestRecord>,
   },
   emits: ["update:modelValue"],
   setup: (props, { emit }) => {

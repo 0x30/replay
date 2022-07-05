@@ -6,6 +6,7 @@ import Style from "./Replayer.module.scss";
 import { eventWithTime } from "rrweb/typings/types";
 import Player from "./player/index";
 import { eventInjectKey } from "../util/libInjectKey";
+import { ConsoleComponent } from "./console";
 
 export const Replayer = defineComponent({
   name: "ReplayComponent",
@@ -21,6 +22,7 @@ export const Replayer = defineComponent({
           <NetworkTable class={Style.network} />
           <div class={Style.bottomBody}>
             <Player />
+            <ConsoleComponent />
           </div>
         </div>
       );

@@ -4,6 +4,7 @@ import { NetworkRequestRecord } from "./util";
 import Style from "./PerformanceTimingComponent.module.scss";
 
 export const PerformanceTimingComponent = defineComponent({
+  name: "PerformanceTimingComponent",
   props: {
     source: Object as PropType<NetworkRequestRecord>,
   },
@@ -24,8 +25,6 @@ export const PerformanceTimingComponent = defineComponent({
       const tcpSSL = time.secureConnectionStart - time.connectStart;
       const request = time.responseStart - time.requestStart;
       const response = time.responseEnd - time.responseStart;
-
-      console.log(time);
 
       const left = (props.source!.timestamp - meta.startTime) / meta.totalTime;
       const width = time.duration / meta.totalTime;

@@ -25,7 +25,7 @@ import { PerformanceTimingComponent as PerformanceTiming } from "./PerformanceTi
 export const NetworkTable = defineComponent({
   name: "NetworkTable",
   setup: () => {
-    const currentNetwork = ref<DataType>();
+    const currentNetwork = ref<NetworkRequestRecord>();
 
     const { currentEvent } = usePlayer();
     const events = inject(eventInjectKey, []);
@@ -56,14 +56,14 @@ export const NetworkTable = defineComponent({
             border
             stripe
             fit={true}
+            style={currentNetwork.value ? { width: "unset" } : {}}
             headerCellStyle={{ color: "black" }}
             cellStyle={{ padding: 0 }}
             size="small"
             tableLayout="fixed"
             height="100%"
-            width="unset"
             rowClassName={rowClassName}
-            onCell-click={(row) => (currentNetwork.value = row)}
+            onCell-click={(row) => (currentNetwork.value = row.real)}
           >
             <ElTableColumn
               label="name"
@@ -126,7 +126,6 @@ export const NetworkTable = defineComponent({
                 <ElTableColumn
                   label="waterfall"
                   minWidth={800}
-                  renderHeader={() => <div>waterfall</div>}
                   showOverflowTooltip
                 >
                   {(event: any) => (

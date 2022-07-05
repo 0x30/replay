@@ -6,6 +6,7 @@ import { eventInjectKey } from "../../util/libInjectKey";
 import { useInitPlayer } from "../../util/libPlayState";
 
 export const EventPlayer = defineComponent({
+  name: "EventPlayer",
   setup: () => {
     const events = inject(eventInjectKey, []);
     const playerElement = ref<HTMLDivElement>();
