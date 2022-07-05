@@ -1,0 +1,38 @@
+.time-row-item {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  .item {
+    top: 5px;
+    position: absolute;
+    height: 10px;
+    background-color: green;
+    display: flex;
+
+    div {
+      height: 10px;
+    }
+
+    .redirect {
+      background-color: azure;
+    }
+    .appCache {
+      background-color: cyan;
+    }
+    .dns {
+      background-color: coral;
+    }
+    .tcp {
+      background-color: chartreuse;
+    }
+    .tcpSSL {
+      background-color: purple;
+    }
+    .request {
+      background-color: green;
+    }
+    .response {
+      background-color: skyblue;
+    }
+  }
+}

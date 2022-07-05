@@ -1,0 +1,80 @@
+.network-detail {
+  flex: 1;
+  position: relative;
+
+  .close-btn {
+    height: 32px;
+    width: 32px;
+
+    z-index: 10;
+
+    top: 0;
+    left: 0;
+    position: absolute;
+  }
+
+  :global(.el-tabs__nav-scroll) {
+    height: 32px;
+
+    :global(.el-tabs__nav) {
+      height: 32px;
+    }
+  }
+
+  :global(.el-tabs__nav-wrap) {
+    padding-left: 50px;
+    font-size: 12px !important;
+    font-weight: normal !important;
+
+    // tab 底部 边框 高度修改为1px
+    &::after {
+      height: 1px;
+    }
+
+    :global(.el-tabs__item) {
+      // 默认颜色
+      color: var(--el-text-color-regular);
+
+      padding: 0 10px;
+
+      // tab 文字设置
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 32px;
+
+      font-weight: bold;
+
+      text-transform: capitalize;
+    }
+
+    // 选中颜色
+    :global(.el-tabs__item.is-active) {
+      color: var(--el-text-color-primary);
+    }
+  }
+
+  .item {
+    font-size: 12px;
+    font-weight: normal;
+
+    details {
+      padding: 0 16px;
+      padding: 0.5em 0.5em 0;
+    }
+
+    summary {
+      font-weight: bold;
+      margin: -0.5em -0.5em 0;
+      padding: 0.5em;
+    }
+
+    details[open] {
+      padding: 0.5em;
+      border-bottom: 1px solid silver;
+    }
+
+    details[open] summary {
+      margin-bottom: 0.5em;
+    }
+  }
+}

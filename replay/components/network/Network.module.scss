@@ -19,124 +19,27 @@
   td {
     font-family: monospace, "Courier New", Courier, monospace;
   }
-}
 
-.network-detail {
-  flex: 1;
-  position: relative;
-
-  .close-btn {
-    height: 32px;
-    width: 32px;
-
-    z-index: 10;
-
-    top: 0;
-    left: 0;
-    position: absolute;
+  .olded {
+    transition: color 0.5s linear;
+    color: var(--el-text-color-primary);
   }
 
-  :global(.el-tabs__nav-scroll) {
-    height: 32px;
-
-    :global(.el-tabs__nav) {
-      height: 32px;
-    }
+  .un-req {
+    opacity: 0.6;
   }
 
-  :global(.el-tabs__nav-wrap) {
-    padding-left: 50px;
-    font-size: 12px !important;
-    font-weight: normal !important;
+  .waterfall {
+    // position: relative;
 
-    // tab 底部 边框 高度修改为1px
-    &::after {
-      height: 1px;
-    }
-
-    :global(.el-tabs__item) {
-      // 默认颜色
-      color: var(--el-text-color-regular);
-
-      padding: 0 10px;
-
-      // tab 文字设置
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 32px;
-
-      font-weight: bold;
-
-      text-transform: capitalize;
-    }
-
-    // 选中颜色
-    :global(.el-tabs__item.is-active) {
-      color: var(--el-text-color-primary);
-    }
-  }
-
-  .item {
-    font-size: 12px;
-    font-weight: normal;
-
-    details {
-      padding: 0 16px;
-      padding: 0.5em 0.5em 0;
-    }
-
-    summary {
-      font-weight: bold;
-      margin: -0.5em -0.5em 0;
-      padding: 0.5em;
-    }
-
-    details[open] {
-      padding: 0.5em;
-      border-bottom: 1px solid silver;
-    }
-
-    details[open] summary {
-      margin-bottom: 0.5em;
-    }
-  }
-}
-
-.time-row-item {
-  width: 100%;
-  height: 20px;
-  position: relative;
-  .item {
-    top: 5px;
-    position: absolute;
-    height: 10px;
-    background-color: green;
-    display: flex;
-
-    div {
-      height: 10px;
-    }
-
-    .redirect {
-      background-color: azure;
-    }
-    .appCache {
-      background-color: cyan;
-    }
-    .dns {
-      background-color: coral;
-    }
-    .tcp {
-      background-color: chartreuse;
-    }
-    .tcpSSL {
-      background-color: purple;
-    }
-    .request {
-      background-color: green;
-    }
-    .response {
-      background-color: skyblue;
+    .needle {
+      position: absolute;
+      height: 1000px;
+      width: 10px;
+      background-color: red;
+      top: 0;
+      left: 10px;
+      z-index: 20000;
     }
   }
 }
