@@ -21,12 +21,18 @@
   }
 
   .olded {
-    transition: color 0.5s linear;
+    transition: color 0.2s linear;
     color: var(--el-text-color-primary);
   }
 
+  .selected {
+    transition: color 0.2s linear;
+    color: var(--el-color-primary);
+  }
+
   .un-req {
-    opacity: 0.6;
+    transition: opacity 0.2s linear;
+    opacity: 0.8;
   }
 
   .waterfall {

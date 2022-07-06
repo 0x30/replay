@@ -1,6 +1,32 @@
 .network-detail {
   flex: 1;
   position: relative;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  // el tabs 滑动
+  :global(.el-tabs) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+
+    :global(.el-tabs__header) {
+      margin: 0;
+    }
+
+    :global(.el-tabs__content) {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+
+      padding-top: 15px;
+    }
+  }
 
   .close-btn {
     height: 32px;
@@ -70,11 +96,35 @@
 
     details[open] {
       padding: 0.5em;
-      border-bottom: 1px solid silver;
+      border-bottom: 1px solid var(--el-border-color);
     }
 
     details[open] summary {
       margin-bottom: 0.5em;
+    }
+  }
+}
+
+.network-detail-header-pane {
+  overflow: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  table {
+    border-collapse: collapse;
+
+    th {
+      text-align: left;
+      background-color: var(--el-border-color-lighter);
+    }
+    td {
+      font-family: monospace, "Courier New", Courier, monospace;
+    }
+    th,
+    td {
+      padding: 8px 16px;
+      border: 1px solid var(--el-border-color);
     }
   }
 }

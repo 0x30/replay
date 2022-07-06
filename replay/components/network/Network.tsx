@@ -39,6 +39,15 @@ export const NetworkTable = defineComponent({
     );
 
     const rowClassName = (event: any) => {
+      if (currentNetwork.value) {
+        if (
+          currentNetwork.value.timestamp === event.row.real.timestamp &&
+          currentNetwork.value.data.payload.url ===
+            event.row.real.data.payload.url
+        ) {
+          return Style.selected;
+        }
+      }
       if (currentEvent.value) {
         if (currentEvent.value.timestamp > event.row.real.timestamp) {
           return Style.olded;
@@ -86,7 +95,7 @@ export const NetworkTable = defineComponent({
                   label="status"
                   width={70}
                   align="center"
-                  formatter={(row) => row.status ?? "200"}
+                  formatter={(row) => row.status ?? "-"}
                   showOverflowTooltip
                 />
                 <ElTableColumn

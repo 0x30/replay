@@ -1,5 +1,5 @@
 .body {
-  border-top: 1px solid silver;
+  border-top: 1px solid var(--el-border-color);
 
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@
     border-radius: 5px;
     background-color: white;
     position: relative;
-    border: 1px solid rgba($color: silver, $alpha: 0.5);
+    border: 1px solid rgba($color: var(--el-border-color), $alpha: 0.5);
 
     div {
       position: absolute;
