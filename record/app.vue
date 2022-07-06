@@ -19,6 +19,7 @@
     </button>
     <button @click="xhr('http://localhost:3000')">xhr 404</button>
     <button @click="xhr('https://baidu.com')">xhr cros</button>
+    <button @click="xhr('https://v1.hitokoto.cn')">xhr JSON</button>
     <button @click="xhr('http://localhost:3000/favicon.ico')">xhr img</button>
 
     <button @click="fe('http://localhost:3000/record/index.html?a=1')">
@@ -26,6 +27,7 @@
     </button>
     <button @click="fe('http://localhost:3000')">fetch 404</button>
     <button @click="fe('https://baidu.com')">fetch cros</button>
+    <button @click="fe('https://v1.hitokoto.cn')">fetch json</button>
     <button @click="fe('http://localhost:3000/favicon.ico')">fetch img</button>
 
     <button @click="loadImg">加载图片</button>
