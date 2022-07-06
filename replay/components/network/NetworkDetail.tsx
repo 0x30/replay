@@ -18,7 +18,7 @@ import "highlight.js/lib/common";
 import hljs from "@highlightjs/vue-plugin";
 
 const HeaderView = defineComponent({
-  name: "",
+  name: "NetworkHeaderView",
   props: {
     title: String,
     header: Object,
@@ -115,8 +115,6 @@ export const NetworkDetail = defineComponent({
       if (props.modelValue === undefined) return null;
 
       const request = props.modelValue.data.payload;
-
-      console.log(request);
 
       return (
         <div class={Style.networkDetail}>

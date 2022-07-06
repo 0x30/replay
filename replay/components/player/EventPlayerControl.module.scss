@@ -8,40 +8,6 @@
   background-color: var(--el-bg-color-page);
 }
 
-.progress {
-  padding: 10px 0;
-  padding-bottom: 0;
-
-  .bar {
-    height: 10px;
-    border-radius: 5px;
-    background-color: white;
-    position: relative;
-    border: 1px solid rgba($color: var(--el-border-color), $alpha: 0.5);
-
-    div {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-
-      background-color: var(--el-color-primary);
-      width: 5px;
-
-      cursor: pointer;
-
-      &::after {
-        content: "";
-        position: absolute;
-        left: -4px;
-        top: -2px;
-        bottom: -2px;
-        right: -4px;
-      }
-    }
-  }
-}
-
 .control {
   padding: 8px 0;
   position: relative;
@@ -60,7 +26,6 @@
   }
 
   .speed-button {
-
     width: 30px;
     height: 30px;
     font-family: Menlo, Monaco, "Courier New", monospace;

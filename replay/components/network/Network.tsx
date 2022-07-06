@@ -17,7 +17,12 @@ import {
 import { getFontAwesomeIconFromMIME, msToFormatTime } from "../../util/libMisc";
 import { getUrlName } from "../../util/libUrlName";
 import { usePlayer } from "../../util/libPlayState";
-import { DataType, event2Data, NetworkRequestRecord } from "./util";
+import {
+  currentNetwork,
+  DataType,
+  event2Data,
+  NetworkRequestRecord,
+} from "./util";
 import { NetworkDetail } from "./NetworkDetail";
 import { PerformanceTimingComponent as PerformanceTiming } from "./PerformanceTimingComponent";
 
@@ -25,8 +30,6 @@ import { PerformanceTimingComponent as PerformanceTiming } from "./PerformanceTi
 export const NetworkTable = defineComponent({
   name: "NetworkTable",
   setup: () => {
-    const currentNetwork = ref<NetworkRequestRecord>();
-
     const { currentEvent } = usePlayer();
     const events = inject(eventInjectKey, []);
 

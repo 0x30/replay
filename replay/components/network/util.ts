@@ -1,4 +1,5 @@
 import { customEvent } from "rrweb/typings/types";
+import { ref } from "vue";
 import { RequestRecord } from "../../../record/lib/libRequestRecord";
 import { getFontAwesomeIconFromMIME } from "../../util/libMisc";
 import { getUrlName } from "../../util/libUrlName";
@@ -26,3 +27,5 @@ export const event2Data = (event: NetworkRequestRecord) => {
     transferSize: event.data.payload.entry.transferSize,
   };
 };
+
+export const currentNetwork = ref<NetworkRequestRecord>();

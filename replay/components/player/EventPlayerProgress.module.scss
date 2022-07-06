@@ -1,0 +1,53 @@
+.progress {
+  padding: 10px 0;
+  padding-bottom: 0;
+
+  .bar {
+    height: 10px;
+    border-radius: 5px;
+    background-color: white;
+    position: relative;
+    border: 1px solid rgba($color: var(--el-border-color), $alpha: 0.5);
+
+    div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      background-color: var(--el-color-primary);
+      width: 5px;
+
+      cursor: pointer;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: -4px;
+        top: -2px;
+        bottom: -2px;
+        right: -4px;
+      }
+    }
+  }
+
+  .events-bar {
+    transition: max-height 0.5s linear;
+    padding: 4px;
+    overflow: hidden;
+
+    height: 6px;
+    position: relative;
+
+    i {
+      cursor: pointer;
+      position: absolute;
+      left: 40%;
+      top: 1px;
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      background-color: var(--el-color-success);
+    }
+  }
+}
