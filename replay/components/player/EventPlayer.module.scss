@@ -30,3 +30,130 @@
     box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 0.39);
   }
 }
+
+.device-info {
+  position: absolute !important;
+  right: 5px;
+  top: 5px;
+  z-index: 10;
+
+  i {
+    font-size: 19px;
+  }
+}
+
+.device-info-drawer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #f6f9fc;
+  border-left: 1px solid var(--el-border-color);
+
+  header {
+    height: 30px;
+    background-color: white;
+    border-bottom: 1px solid var(--el-border-color);
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+  }
+
+  main {
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    color: #414770;
+    font-family: Source Code Pro, monospace;
+
+    div {
+      padding: 0 12px;
+      margin-bottom: 4px;
+      line-height: 19px;
+      white-space: nowrap;
+
+      span {
+        margin-left: 6px;
+      }
+
+      &::before {
+        background-position: 0 0px;
+        background-repeat: no-repeat;
+
+        content: "";
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        top: 4px;
+        margin-right: 5px;
+      }
+    }
+
+    div[data-empty="true"] {
+      span {
+        color: #91a2b0;
+      }
+
+      &::before {
+        background: url(../../assets/img/ua_null.svg);
+      }
+    }
+
+    div[data-empty="false"] {
+      span {
+        color: #149570;
+      }
+
+      &::before {
+        background: url(../../assets/img/ua_string.svg);
+      }
+    }
+
+    details {
+      font-size: 12px;
+      line-height: 19px;
+
+      div {
+        padding: 0 30px;
+      }
+
+      summary {
+        margin-bottom: 4px;
+      }
+
+      summary::marker {
+        color: rgb(152, 138, 153);
+      }
+
+      summary::before {
+        background: url(../../assets/img/ua_array.svg);
+        background-position: 0 0px;
+        background-repeat: no-repeat;
+
+        content: "";
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        position: relative;
+        top: 4px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
