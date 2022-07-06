@@ -31,6 +31,9 @@ export const useRecord = (option: RecordOption) => {
     },
   });
 
+  // add ua custom event
+  addCustomEvent("ua", navigator.userAgent);
+
   // 监听请求
   const stopRequestRecord = useRequestRecord();
 
