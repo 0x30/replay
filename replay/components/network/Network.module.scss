@@ -4,6 +4,7 @@
   overflow: auto;
 
   display: flex;
+  flex-direction: column;
 }
 
 .table {
@@ -44,5 +45,28 @@
       left: 10px;
       z-index: 20000;
     }
+  }
+}
+
+.network-body {
+  display: flex;
+  flex: 1;
+  min-height: 0px;
+}
+
+.search-bar {
+  height: 30px;
+
+  align-self: stretch;
+  background-color: var(--el-bg-color-page);
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 10px;
+
+
+  :global(.el-checkbox){
+    margin-right: 8px;
   }
 }
