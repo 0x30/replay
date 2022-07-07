@@ -7,6 +7,7 @@ import { eventWithTime } from "rrweb/typings/types";
 import Player from "./player/index";
 import { eventInjectKey } from "../util/libInjectKey";
 import { ConsoleComponent } from "./console";
+import { DragResize } from "./DragResize";
 
 export const Replayer = defineComponent({
   name: "ReplayComponent",
@@ -18,13 +19,13 @@ export const Replayer = defineComponent({
 
     return () => {
       return (
-        <div class={Style.body}>
+        <DragResize id="play_body" class={Style.body} direction="vertical" initScale={0.65}>
           <NetworkTable class={Style.network} />
-          <div class={Style.bottomBody}>
+          <DragResize id="bottom_body" class={Style.bottomBody} initScale={0.3}>
             <Player />
             <ConsoleComponent />
-          </div>
-        </div>
+          </DragResize>
+        </DragResize>
       );
     };
   },
