@@ -90,6 +90,10 @@ const NetworkDetailResponsePane = defineComponent({
         return <pre>null</pre>;
 
       const contentType = resp.responseHeader["content-type"];
+      if (contentType === undefined) {
+        return <pre>null</pre>;
+      }
+
       if (contentType.includes("application/json")) {
         return <hljs.component code={JSON.stringify(resp.response, null, 2)} />;
       }
