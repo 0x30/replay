@@ -52,6 +52,13 @@
   display: flex;
   flex: 1;
   min-height: 0px;
+  overflow: auto;
+
+  .table-body{
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: auto;
+  }
 }
 
 .search-bar {
@@ -65,8 +72,7 @@
   justify-content: flex-end;
   padding: 0 10px;
 
-
-  :global(.el-checkbox){
+  :global(.el-checkbox) {
     margin-right: 8px;
   }
 }

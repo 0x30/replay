@@ -1,7 +1,5 @@
 import { EventType } from "rrweb";
-import { customEvent, eventWithTime } from "rrweb/typings/types";
-import { computed, defineComponent, inject, PropType, ref } from "vue";
-import { RequestRecord } from "../../../record/lib/libRequestRecord";
+import { computed, defineComponent, inject, ref, watch } from "vue";
 import { eventInjectKey } from "../../util/libInjectKey";
 import Style from "./Network.module.scss";
 import { bytesToSize } from "../../util/libMisc";
@@ -10,27 +8,17 @@ import {
   ElTable,
   ElTableColumn,
   ElSpace,
-  ElTabs,
-  ElTabPane,
-  ElLink,
   ElCheckboxGroup,
-  ElCheckboxButton,
   ElInput,
   ElCheckbox,
   ElTooltip,
 } from "element-plus";
-import { getFontAwesomeIconFromMIME, msToFormatTime } from "../../util/libMisc";
-import { getUrlName } from "../../util/libUrlName";
+import { msToFormatTime } from "../../util/libMisc";
 import { usePlayer } from "../../util/libPlayState";
-import {
-  currentNetwork,
-  DataType,
-  event2Data,
-  NetworkRequestRecord,
-} from "./util";
+import { currentNetwork, event2Data, NetworkRequestRecord } from "./util";
 import { NetworkDetail } from "./NetworkDetail";
 import { PerformanceTimingComponent as PerformanceTiming } from "./PerformanceTimingComponent";
-import { isEmpty, isEqual } from "lodash-es";
+import { isEmpty, isEqual, throttle } from "lodash-es";
 
 const CheckTypePool: Record<string, string[]> = {
   "fetch/xhr": ["xmlhttprequest", "fetch"],
@@ -56,6 +44,7 @@ export const NetworkTable = defineComponent({
   name: "NetworkTable",
   setup: () => {
     const { currentEvent } = usePlayer();
+    const tableRef = ref<typeof ElTable>();
     const events = inject(eventInjectKey, []);
 
     const searchText = ref<string>("");
@@ -88,22 +77,42 @@ export const NetworkTable = defineComponent({
         .map(event2Data)
     );
 
-    const rowClassName = (event: any) => {
-      if (currentNetwork.value) {
-        if (
-          currentNetwork.value.timestamp === event.row.real.timestamp &&
-          currentNetwork.value.data.payload.url ===
-            event.row.real.data.payload.url
-        ) {
-          return Style.selected;
+    watch(
+      () => currentEvent.value?.timestamp,
+      throttle(() => {
+        const result = document.body.querySelectorAll(`.${Style.olded}`);
+        const item = result[result.length - 1] as HTMLDivElement;
+        if (item) {
+          if ((item as any).scrollIntoViewIfNeeded) {
+            (item as any).scrollIntoViewIfNeeded();
+          } else {
+            item.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "start",
+            });
+          }
         }
-      }
+      }, 300)
+    );
+
+    const rowClassName = (event: any) => {
+      // 当前 event 是否正常
+      const isSelected =
+        currentNetwork.value &&
+        currentNetwork.value.timestamp === event.row.real.timestamp &&
+        currentNetwork.value.data.payload.url ===
+          event.row.real.data.payload.url;
+
+      const selectClass = isSelected ? Style.selected : "";
+
+      // 如果当前的时间 大于 时间对象
       if (currentEvent.value) {
         if (currentEvent.value.timestamp > event.row.real.timestamp) {
-          return Style.olded;
+          return [Style.olded, selectClass].join(" ");
         }
       }
-      return Style.unReq;
+      return [Style.unReq, selectClass].join(" ");
     };
 
     return () => {
@@ -117,10 +126,16 @@ export const NetworkTable = defineComponent({
             />
             <ElCheckbox
               label="all"
-              v-model={isAll.value}
+              modelValue={isAll.value}
               indeterminate={isIndeterminate.value}
               onChange={(val) => {
-                checkTypes.value = val === true ? initiatorTypes : [];
+                console.log(tableRef.value);
+
+                // tableRef.value.$el.
+
+                // tableRef.value.scrollTo(10,30)
+
+                // checkTypes.value = val === true ? initiatorTypes : [];
               }}
             />
             <ElCheckboxGroup size="small" v-model={checkTypes.value}>
@@ -134,6 +149,7 @@ export const NetworkTable = defineComponent({
               class={Style.table}
               data={networks.value}
               border
+              ref={tableRef}
               stripe
               fit={true}
               style={currentNetwork.value ? { width: "unset" } : {}}
