@@ -1,5 +1,5 @@
 import { EventType } from "rrweb";
-import { computed, defineComponent, inject, ref, watch } from "vue";
+import { computed, defineComponent, inject, onMounted, ref, watch } from "vue";
 import { eventInjectKey } from "../../util/libInjectKey";
 import Style from "./Network.module.scss";
 import { bytesToSize } from "../../util/libMisc";
@@ -12,13 +12,14 @@ import {
   ElInput,
   ElCheckbox,
   ElTooltip,
+  ElLink,
 } from "element-plus";
 import { msToFormatTime } from "../../util/libMisc";
 import { usePlayer } from "../../util/libPlayState";
 import { currentNetwork, event2Data, NetworkRequestRecord } from "./util";
 import { NetworkDetail } from "./NetworkDetail";
 import { PerformanceTimingComponent as PerformanceTiming } from "./PerformanceTimingComponent";
-import { isEmpty, isEqual, throttle } from "lodash-es";
+import { debounce, isEmpty, isEqual, throttle } from "lodash-es";
 
 const CheckTypePool: Record<string, string[]> = {
   "fetch/xhr": ["xmlhttprequest", "fetch"],
@@ -37,6 +38,55 @@ const CheckTypePool: Record<string, string[]> = {
     "frame",
     "other",
   ],
+};
+
+const useMutationScroll = (className: string) => {
+  // 防止频繁调用
+  const scoll = throttle((item: any) => {
+    item.scrollIntoView({
+      block: "center",
+      inline: "start",
+    });
+  }, 100);
+
+  // 监听器
+  const observer = new MutationObserver((mutationsList) => {
+    for (let mutation of mutationsList) {
+      // 获取老的样式表
+      const oldClasses = mutation.oldValue?.split(" ") ?? [];
+      const oldClassesSet = new Set(oldClasses);
+
+      // 获取差值
+      const res = [
+        ...Array.from((mutation.target as HTMLDivElement).classList),
+      ].filter((c) => !oldClassesSet.has(c));
+
+      if (new Set(res).has(className)) {
+        scoll(mutation.target);
+      }
+    }
+  });
+
+  let isStart = false;
+
+  const start = (element: Element) => {
+    if (isStart === true) return;
+
+    isStart = true;
+    observer.observe(element, {
+      subtree: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ["class"],
+    });
+  };
+
+  return {
+    start,
+    stop: () => {
+      if (isStart === true) observer.disconnect();
+    },
+  };
 };
 
 // https://gist.github.com/colemanw/9c9a12aae16a4bfe2678de86b661d922
@@ -77,24 +127,12 @@ export const NetworkTable = defineComponent({
         .map(event2Data)
     );
 
-    watch(
-      () => currentEvent.value?.timestamp,
-      throttle(() => {
-        const result = document.body.querySelectorAll(`.${Style.olded}`);
-        const item = result[result.length - 1] as HTMLDivElement;
-        if (item) {
-          if ((item as any).scrollIntoViewIfNeeded) {
-            (item as any).scrollIntoViewIfNeeded();
-          } else {
-            item.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-              inline: "start",
-            });
-          }
-        }
-      }, 300)
-    );
+    const isPin = ref(true);
+    const { start, stop } = useMutationScroll(Style.olded);
+
+    onMounted(() => {
+      if (isPin.value === true) start((tableRef.value as any).$el);
+    });
 
     const rowClassName = (event: any) => {
       // 当前 event 是否正常
@@ -119,6 +157,18 @@ export const NetworkTable = defineComponent({
       return (
         <div class={Style.body}>
           <ElSpace class={Style.searchBar}>
+            <ElLink
+              type={isPin.value ? "primary" : "default"}
+              onClick={() => {
+                if (isPin.value === true) {
+                  stop();
+                } else {
+                  start((tableRef.value as any).$el);
+                }
+              }}
+            >
+              <i class="fa-solid fa-bullseye"></i>
+            </ElLink>
             <ElInput
               v-model={searchText.value}
               size="small"
@@ -129,13 +179,7 @@ export const NetworkTable = defineComponent({
               modelValue={isAll.value}
               indeterminate={isIndeterminate.value}
               onChange={(val) => {
-                console.log(tableRef.value);
-
-                // tableRef.value.$el.
-
-                // tableRef.value.scrollTo(10,30)
-
-                // checkTypes.value = val === true ? initiatorTypes : [];
+                checkTypes.value = val === true ? initiatorTypes : [];
               }}
             />
             <ElCheckboxGroup size="small" v-model={checkTypes.value}>
@@ -164,7 +208,11 @@ export const NetworkTable = defineComponent({
               <ElTableColumn label="name" prop="name" width={230}>
                 {({ row }: { row: any }) => {
                   return (
-                    <ElTooltip content={row.url} placement="top">
+                    <ElTooltip
+                      content={row.url}
+                      placement="top"
+                      showAfter={150}
+                    >
                       <ElSpace>
                         <i class={`fa-solid ${row.icon}`}></i>
                         {row.name}

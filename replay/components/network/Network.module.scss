@@ -75,4 +75,9 @@
   :global(.el-checkbox) {
     margin-right: 8px;
   }
+
+  .pin-btn{
+    align-self: flex-start;
+    justify-self: flex-start;
+  }
 }
